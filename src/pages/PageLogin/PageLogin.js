@@ -1,14 +1,14 @@
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, UnlockOutlined, } from '@ant-design/icons';
 import { Input, Button } from 'antd';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { withFormik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup'
 
-import style from './Login.module.scss'
+import style from './PageLogin.module.scss'
 import { signInUserApi } from '../../redux/actions/actionUser/actionUserApi'
 
-function Login(props) {
+function PageLogin(props) {
     const dispatch = useDispatch();
 
     const formik = useFormik({
@@ -88,4 +88,4 @@ function Login(props) {
     );
 }
 
-export default Login
+export default PageLogin;

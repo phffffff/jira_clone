@@ -1,5 +1,8 @@
 const LOGIN_USER_API = 'LOGIN_USER_API';
 
+const GET_PROJECT_API = 'GET_PROJECT_API';
+
 export {
     LOGIN_USER_API,
+    GET_PROJECT_API,
 }

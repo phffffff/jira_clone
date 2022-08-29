@@ -8,10 +8,13 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 
 import Loading from "./components/Loading/Loading";
-import Login from "./components/Login/Login";
 import SignIn from "./components/SignIn/SignIn";
 import LoginUserTemplate from "./templates/LoginUserTemplate/LoginUserTemplate";
 import { actionNavigate } from './redux/actions/actionNavigate/actionNavigate'
+import PageLogin from "./pages/PageLogin/PageLogin";
+import HomeTemplate from "./templates/HomeTemplate/HomeTemplate";
+import PageHome from "./pages/PageHome/PageHome";
+import PageCreateProject from "./pages/PageCreateProject/PageCreateProject";
 
 function App() {
   const { isLoading } = useSelector(state => state.stateLoad);
@@ -34,8 +37,10 @@ function App() {
         isLoading ? <Loading /> : null
       }
       <Routes>
-        <Route path='/login' element={<LoginUserTemplate Component={() => <Login />} />} />
+        <Route path='/Login' element={<LoginUserTemplate Component={() => <PageLogin />} />} />
         <Route path='/SignIn' element={<LoginUserTemplate Component={() => <SignIn />} />} />
+        <Route path='/Home' element={<HomeTemplate Component={() => <PageHome />} />} />
+        <Route path='/CreateProject' element={<HomeTemplate Component={() => <PageCreateProject />} />} />
       </Routes>
     </>
   );
