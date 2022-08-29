@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+
+import Loading from "./components/Loading/Loading";
+import Login from "./components/Login/Login";
+import SignIn from "./components/SignIn/SignIn";
+import LoginUserTemplate from "./templates/LoginUserTemplate/LoginUserTemplate";
+import { actionNavigate } from './redux/actions/actionNavigate/actionNavigate'
 
 function App() {
+  const { isLoading } = useSelector(state => state.stateLoad);
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actionNavigate(navigate));
+
+    return () => {
+
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {
+        isLoading ? <Loading /> : null
+      }
+      <Routes>
+        <Route path='/login' element={<LoginUserTemplate Component={() => <Login />} />} />
+        <Route path='/SignIn' element={<LoginUserTemplate Component={() => <SignIn />} />} />
+      </Routes>
+    </>
   );
 }
 
