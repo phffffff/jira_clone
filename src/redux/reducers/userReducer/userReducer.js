@@ -11,8 +11,6 @@ const userReducer = (state = initState, action) => {
     switch (action.type) {
         case PUSH_USER:
             const { payload } = action
-            console.log(payload);
-            console.log(userStore);
             return {
                 ...state,
                 user: payload,

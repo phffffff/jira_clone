@@ -1,14 +1,23 @@
-import { GET_PROJECT_API } from '../../constants/constantsApi'
+import { SET_PROJECT_CATEGORY, SET_ALL_PROJECT } from '../../constants/constanst';
 
 const initState = {
+    projectCategoryList: [],
     projectList: [],
 }
 
 const projectReducer = (state = initState, action) => {
     switch (action.type) {
-        case GET_PROJECT_API:
+        case SET_PROJECT_CATEGORY:
+            return {
+                ...state,
+                projectCategoryList: [...action.payload],
+            }
 
-            return { ...state }
+        case SET_ALL_PROJECT:
+            return {
+                ...state,
+                projectList: [...action.payload]
+            }
 
         default:
             return { ...state }

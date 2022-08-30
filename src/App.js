@@ -15,6 +15,7 @@ import PageLogin from "./pages/PageLogin/PageLogin";
 import HomeTemplate from "./templates/HomeTemplate/HomeTemplate";
 import PageHome from "./pages/PageHome/PageHome";
 import PageCreateProject from "./pages/PageCreateProject/PageCreateProject";
+import PageListProject from "./pages/PageListProject/PageListProject";
 
 function App() {
   const { isLoading } = useSelector(state => state.stateLoad);
@@ -37,10 +38,31 @@ function App() {
         isLoading ? <Loading /> : null
       }
       <Routes>
-        <Route path='/Login' element={<LoginUserTemplate Component={() => <PageLogin />} />} />
-        <Route path='/SignIn' element={<LoginUserTemplate Component={() => <SignIn />} />} />
-        <Route path='/Home' element={<HomeTemplate Component={() => <PageHome />} />} />
-        <Route path='/CreateProject' element={<HomeTemplate Component={() => <PageCreateProject />} />} />
+        <Route path='/Login' element={
+          <LoginUserTemplate>
+            <PageLogin />
+          </LoginUserTemplate>
+        } />
+        <Route path='/SignIn' element={
+          <LoginUserTemplate>
+            <SignIn />
+          </LoginUserTemplate>
+        } />
+        <Route path='/Home' element={
+          <HomeTemplate>
+            <PageHome />
+          </HomeTemplate>
+        } />
+        <Route path='/CreateProject' element={
+          <HomeTemplate>
+            <PageCreateProject />
+          </HomeTemplate>
+        } />
+        <Route path='/ListProject' element={
+          <HomeTemplate>
+            <PageListProject />
+          </HomeTemplate>
+        } />
       </Routes>
     </>
   );

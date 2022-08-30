@@ -4,7 +4,7 @@ import './HomeTemplate.css';
 import Modal from '../../components/Modal/Modal';
 
 function HomeTemplate(props) {
-    const { Component } = props;
+    const { children } = props;
 
     return (
         <>
@@ -12,7 +12,7 @@ function HomeTemplate(props) {
                 <SideBar />
                 <Menu />
                 <div className='main'>
-                    <Component />
+                    {children}
                 </div>
             </div>
             <Modal />

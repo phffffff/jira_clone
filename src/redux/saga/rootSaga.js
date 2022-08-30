@@ -5,10 +5,11 @@ import * as Project from './actionSagas/projectSaga';
 
 function* rootSaga() {
     yield all([
-        //UserSaga
         User.watchSignIn(),
-        //ProjectSaga
-        Project.watchGetProjectApi(),
+
+        Project.watchGetProjectCategoryApi(),
+        Project.watchCreateProjectApi(),
+        Project.watchSetProjectApi(),
     ])
 }
 

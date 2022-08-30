@@ -43,6 +43,21 @@ function Menu() {
                         }}>Project Settings</span>
                     </NavLink>
                 </div>
+                <div>
+                    <NavLink to='/ListProject'
+                        className={({ isActive }) => {
+                            return isActive ? 'btn text-primary' : 'btn'
+                        }}
+                        style={{
+                            outline: 'none',
+                            border: 'none',
+                        }}>
+                        <i className="fa fa-list" />
+                        <span style={{
+                            paddingLeft: '5px',
+                        }}>List Project</span>
+                    </NavLink>
+                </div>
             </div>
             <div className="feature">
                 <div>

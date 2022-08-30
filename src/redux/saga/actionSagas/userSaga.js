@@ -1,6 +1,6 @@
 import { takeLatest, put, call, delay, select } from 'redux-saga/effects';
 
-import { LOGIN_USER_API } from '../../constants/constantsApi';
+import { LOGIN_USER_API_SAGA } from '../../constants/constantsApi'
 import ServiceUser from '../../../services/ServiceUser';
 import { addLoading, removeLoading } from '../../actions/actionLoading/actionLoading';
 import { TOKEN, USER_LOGIN } from '../../../utils/constantsApi';
@@ -33,7 +33,7 @@ function* signIn(action) {
 }
 
 function* watchSignIn() {
-    yield takeLatest(LOGIN_USER_API, signIn)
+    yield takeLatest(LOGIN_USER_API_SAGA, signIn)
 }
 
 export {

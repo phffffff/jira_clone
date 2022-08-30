@@ -1,48 +1,70 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { actionGetProject } from '../../redux/actions/actionProject/actionProjectApi'
+import {
+    actionGetProjectCategoryApiSaga,
+    actionCreateProjectApiSaga,
+} from '../../redux/actions/actionProject/actionProjectApi'
+import { ID_PROJECT_CATEGORY_DEFAULT } from '../../utils/constantsApi';
 
-function PageCreateProject() {
+function PageCreateProject(props) {
+
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        // dispatch(actionGetProject())
-    }, [])
+    const projectCategory = useSelector(state => state.stateProject.projectCategoryList)
 
     const formik = useFormik({
         initialValues: {
             projectName: '',
             description: '',
-            categoryId: '',
+            categoryId: ID_PROJECT_CATEGORY_DEFAULT,
         },
         onSubmit: (values) => {
-            console.log(values)
-        }
-
+            dispatch(actionCreateProjectApiSaga(values))
+        },
+        validationSchema: Yup.object({
+            projectName: Yup.string().required('Vui lòng nhập tên dự án'),
+            description: Yup.string().required('Vui lòng nhập mô tả'),
+        })
     })
 
     const handleEditorChange = (content, editor) => {
-        console.log('content', content)
-        console.log('editor', editor)
+        formik.setFieldValue('description', content);
+    };
+
+
+    useEffect(() => {
+        dispatch(actionGetProjectCategoryApiSaga())
+    }, [])
+
+
+    const renderCategory = () => {
+        return projectCategory && projectCategory.length
+            && projectCategory.map(item => {
+                return (
+                    <option value={item.id} key={item.id}>{item.projectCategoryName}</option>
+                )
+            })
     }
 
     return (
         <div style={{
             marginRight: '10px',
             width: (window.innerWidth - window.innerWidth * 0.25),
-        }}>
+        }}
+        >
             <h2 className='w-75 mt-5 ml-4' style={{
                 margin: '0px auto',
             }}>
                 Create Project
             </h2>
-            <form className="w-75" style={{
-                margin: '0 auto'
-            }}
+            <form className="w-75"
+                style={{
+                    margin: '0 auto'
+                }}
                 onSubmit={formik.handleSubmit}
             >
                 <div className='m-4'>
@@ -52,6 +74,10 @@ function PageCreateProject() {
                         onChange={formik.handleChange}
                         value={formik.values.projectName}
                     />
+                    {
+                        formik.touched && formik.errors.projectName &&
+                        <small className="form-label text-danger">*{formik.errors.projectName}</small>
+                    }
                 </div>
                 <div className='m-4'>
                     <small htmlFor="projectName" className="form-label">Description</small>
@@ -73,19 +99,23 @@ function PageCreateProject() {
                         }}
                         onEditorChange={handleEditorChange}
                     />
+                    {
+                        formik.touched && formik.errors.description &&
+                        <small className="form-label text-danger">*{formik.errors.description}</small>
+                    }
                 </div>
                 <div className='m-4'>
                     <small htmlFor="projectName" className="form-label">Category Project</small>
                     <select className='form-control' name='categoryId'
                         onChange={formik.handleChange}
                     >
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
+                        {renderCategory()}
                     </select>
                 </div>
                 <div className='m-4'>
-                    <button className='btn btn-primary form-control'>Create</button>
+                    <button type='submit' className='btn btn-primary form-control'
+
+                    >Create</button>
                 </div>
             </form>
         </div >

@@ -9,6 +9,8 @@ function LoginUserTemplate(props) {
         height: window.innerHeight,
     })
 
+    const { children } = props
+
     useEffect(() => {
         const handleSetSize = () => {
             setSize({
@@ -44,7 +46,7 @@ function LoginUserTemplate(props) {
                     minHeight: height
                 }}
             >
-                <Component />
+                {children}
             </Content>
         </Layout>
     )
