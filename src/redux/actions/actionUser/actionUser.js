@@ -1,4 +1,4 @@
-import { PUSH_USER } from "../../constants/constanst"
+import { PUSH_USER, PUSH_MEMBER } from "../../constants/constanst"
 
 const pushUserAction = (payload) => {
     return {
@@ -7,6 +7,14 @@ const pushUserAction = (payload) => {
     }
 }
 
+const pushMenberAction = (payload) => {
+    return {
+        type: PUSH_MEMBER,
+        payload,
+    }
+}
+
 export {
     pushUserAction,
+    pushMenberAction,
 }

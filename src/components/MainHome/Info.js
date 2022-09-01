@@ -1,4 +1,20 @@
-function Info() {
+import { render } from "@testing-library/react";
+
+function Info({ projectDetail }) {
+    let { members } = projectDetail;
+
+    const renderMenber = () => {
+        return (
+            members?.length && members?.map(member => {
+                return (
+                    <div className="avatar" key={member.userId}>
+                        <img src={member.avatar} alt={member.name} />
+                    </div>
+                )
+            })
+        )
+    }
+
     return (
         <div className="info" style={{ display: 'flex', margin: '0px 5px' }}>
             <div className="search-block">
@@ -6,15 +22,7 @@ function Info() {
                 <i className="fa fa-search" />
             </div>
             <div className="avatar-group" style={{ display: 'flex' }}>
-                <div className="avatar">
-                    <img src={require("../../assets/img/download (1).jfif")} alt={"../../assets/img/download (1).jfif"} />
-                </div>
-                <div className="avatar">
-                    <img src={require("../../assets/img/download (2).jfif")} alt={"../../assets/img/download (2).jfif"} />
-                </div>
-                <div className="avatar">
-                    <img src={require("../../assets/img/download (3).jfif")} alt={"../../assets/img/download (3).jfif"} />
-                </div>
+                {renderMenber()}
             </div>
             <div style={{ marginLeft: 20 }} className="text">Only My Issues</div>
             <div style={{ marginLeft: 20 }} className="text">Recently Updated</div>

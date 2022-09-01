@@ -8,8 +8,7 @@ function Menu() {
                     <img src={require('../../assets/img/download.jfif')} alt='../../assets/img/download.jfif' />
                 </div>
                 <div className="account-info">
-                    <p>CyberLearn.vn</p>
-                    <p>Report bugs</p>
+                    <p>Jira clone</p>
                 </div>
             </div>
             <div className="control">

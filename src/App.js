@@ -1,8 +1,8 @@
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    useNavigate,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,59 +13,67 @@ import LoginUserTemplate from "./templates/LoginUserTemplate/LoginUserTemplate";
 import { actionNavigate } from './redux/actions/actionNavigate/actionNavigate'
 import PageLogin from "./pages/PageLogin/PageLogin";
 import HomeTemplate from "./templates/HomeTemplate/HomeTemplate";
-import PageHome from "./pages/PageHome/PageHome";
+import PageDetailProject from "./pages/PageDetailProject/PageDetailProject";
 import PageCreateProject from "./pages/PageCreateProject/PageCreateProject";
 import PageListProject from "./pages/PageListProject/PageListProject";
+import DrawerHoc from "./HOC/DrawerHoc";
 
 function App() {
-  const { isLoading } = useSelector(state => state.stateLoad);
+    const { isLoading } = useSelector(state => state.stateLoad);
 
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(actionNavigate(navigate));
+    useEffect(() => {
+        dispatch(actionNavigate(navigate));
 
-    return () => {
+        return () => {
 
-    };
-  }, []);
+        };
+    }, []);
 
-  return (
-    <>
-      {
-        isLoading ? <Loading /> : null
-      }
-      <Routes>
-        <Route path='/Login' element={
-          <LoginUserTemplate>
-            <PageLogin />
-          </LoginUserTemplate>
-        } />
-        <Route path='/SignIn' element={
-          <LoginUserTemplate>
-            <SignIn />
-          </LoginUserTemplate>
-        } />
-        <Route path='/Home' element={
-          <HomeTemplate>
-            <PageHome />
-          </HomeTemplate>
-        } />
-        <Route path='/CreateProject' element={
-          <HomeTemplate>
-            <PageCreateProject />
-          </HomeTemplate>
-        } />
-        <Route path='/ListProject' element={
-          <HomeTemplate>
-            <PageListProject />
-          </HomeTemplate>
-        } />
-      </Routes>
-    </>
-  );
+    return (
+        <>
+            {
+                isLoading ? <Loading /> : null
+            }
+
+            <Routes>
+                <Route path='/Login' element={
+                    <LoginUserTemplate>
+                        <PageLogin />
+                    </LoginUserTemplate>
+                } />
+                <Route path='/SignIn' element={
+                    <LoginUserTemplate>
+                        <SignIn />
+                    </LoginUserTemplate>
+                } />
+                <Route path='/DetailProject/:projectId' element={
+                    <HomeTemplate>
+                        <PageDetailProject />
+                    </HomeTemplate>
+                } />
+                <Route path='/CreateProject' element={
+                    <HomeTemplate>
+                        <PageCreateProject />
+                    </HomeTemplate>
+                } />
+                <Route path='/ListProject' element={
+                    <HomeTemplate>
+                        <PageListProject />
+                    </HomeTemplate>
+                } />
+                <Route path='/' element={
+                    <HomeTemplate>
+                        <PageListProject />
+                    </HomeTemplate>
+                } />
+            </Routes>
+            <DrawerHoc />
+        </>
+    );
 }
 
 export default App;

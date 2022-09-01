@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-import { DOMAIN_API } from '../utils/constantsApi'
+import { DOMAIN_API, TOKEN } from '../utils/constantsApi'
 
 class ServiceUser {
     userSignIn = (payload) => {
@@ -12,6 +12,14 @@ class ServiceUser {
                 email: email,
                 passWord: password,
             }
+        })
+    }
+
+    getUserWithKeyword = (payload) => {
+        return Axios({
+            url: `${DOMAIN_API}/Users/getUser?keyword=${payload}`,
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
         })
     }
 }

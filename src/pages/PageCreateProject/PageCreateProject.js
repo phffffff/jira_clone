@@ -53,10 +53,10 @@ function PageCreateProject(props) {
     return (
         <div style={{
             marginRight: '10px',
-            width: (window.innerWidth - window.innerWidth * 0.25),
+            width: (window.innerWidth - window.innerWidth * 0.4),
         }}
         >
-            <h2 className='w-75 mt-5 ml-4' style={{
+            <h2 className='w-75 mt-3 ml-2' style={{
                 margin: '0px auto',
             }}>
                 Create Project
@@ -67,7 +67,7 @@ function PageCreateProject(props) {
                 }}
                 onSubmit={formik.handleSubmit}
             >
-                <div className='m-4'>
+                <div className='m-2'>
                     <small htmlFor="projectName" className="form-label">Project Name</small>
 
                     <input className='form-control' id='projectName' name="projectName"
@@ -79,7 +79,7 @@ function PageCreateProject(props) {
                         <small className="form-label text-danger">*{formik.errors.projectName}</small>
                     }
                 </div>
-                <div className='m-4'>
+                <div className='m-2'>
                     <small htmlFor="projectName" className="form-label">Description</small>
 
                     <Editor
@@ -87,7 +87,7 @@ function PageCreateProject(props) {
                         initialValue=""
                         name='description'
                         init={{
-                            height: 350,
+                            height: 300,
                             menubar: false,
                             plugins: [
                                 'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
@@ -104,7 +104,7 @@ function PageCreateProject(props) {
                         <small className="form-label text-danger">*{formik.errors.description}</small>
                     }
                 </div>
-                <div className='m-4'>
+                <div className='m-2'>
                     <small htmlFor="projectName" className="form-label">Category Project</small>
                     <select className='form-control' name='categoryId'
                         onChange={formik.handleChange}
@@ -112,10 +112,8 @@ function PageCreateProject(props) {
                         {renderCategory()}
                     </select>
                 </div>
-                <div className='m-4'>
-                    <button type='submit' className='btn btn-primary form-control'
-
-                    >Create</button>
+                <div className='m-2'>
+                    <button type='submit' className='btn btn-primary'>Create</button>
                 </div>
             </form>
         </div >

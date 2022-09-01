@@ -87,9 +87,9 @@
 
 /* Menu */
 .menu {
-    height: 100vh;
-    width: 20%;
-    margin-left: 4%;
+    height: 100%;
+    width: 17.5%;
+    /* margin-left: 4%; */
     background-color: #f4f5f7;
 }
 
@@ -125,9 +125,9 @@
 }
 
 .menu .control {
-    padding: 0% 10%;
+    padding: 0% 7.5%;
     text-align: left;
-    margin-bottom: 8%;
+    margin-bottom: 7%;
     border-bottom: 2px solid #c4c5c6;
     margin-left: 0%;
     margin-right: 0%;
@@ -152,9 +152,9 @@
 }
 
 .menu .feature {
-    padding: 0% 10%;
+    padding: 0% 7.5%;
     text-align: left;
-    margin-bottom: 8%;
+    margin-bottom: 7%;
     margin-left: 0%;
     margin-right: 0%;
 }

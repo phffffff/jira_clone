@@ -1,4 +1,5 @@
-function Header() {
+function Header({ projectDetail }) {
+    const { projectName, description } = projectDetail;
     return (
         <div className="header">
             <nav aria-label="breadcrumb">
@@ -6,9 +7,10 @@ function Header() {
                     <li className="breadcrumb-item">Project</li>
                     <li className="breadcrumb-item">CyberLearn</li>
                     <li className="breadcrumb-item active" aria-current="page">
-                        Cyber Board
+                        {projectName}
                     </li>
                 </ol>
+                <div dangerouslySetInnerHTML={{ __html: description }} />
             </nav>
         </div>
     );

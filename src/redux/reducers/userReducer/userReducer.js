@@ -1,19 +1,25 @@
 import { USER_LOGIN } from "../../../utils/constantsApi";
-import { PUSH_USER } from "../../constants/constanst";
+import { PUSH_USER, PUSH_MEMBER } from "../../constants/constanst";
 
 const userStore = localStorage.getItem(USER_LOGIN) ? JSON.parse(localStorage.getItem(USER_LOGIN)) : null;
 
 const initState = {
-    user: userStore
+    user: userStore,
+    storeMenberAdd: [],
 }
 
 const userReducer = (state = initState, action) => {
     switch (action.type) {
         case PUSH_USER:
-            const { payload } = action
+
             return {
                 ...state,
-                user: payload,
+                user: action.payload,
+            }
+        case PUSH_MEMBER:
+            return {
+                ...state,
+                storeMenberAdd: action.payload,
             }
         default:
             return { ...state }

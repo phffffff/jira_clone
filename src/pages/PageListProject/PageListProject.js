@@ -1,50 +1,48 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Button, Input, Space, Table, Popconfirm, Avatar, Popover, AutoComplete, List } from 'antd';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom'
 
+import {
+    actionAssignUserProjectSaga,
+    actionDelProjectApiSaga,
+    actionGetProjectApiSaga,
+    actionRemoveUserFromProjectSaga,
+} from '../../redux/actions/actionProject/actionProjectApi';
 
-import { actionGetProjectApiSaga } from '../../redux/actions/actionProject/actionProjectApi'
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'Joe Black',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Jim Green',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-    },
-];
+import { actionOpenDrawer } from '../../redux/actions/actionForm/actionForm';
+
+import FormEditer from '../../components/Form/FormEditer';
+import { actionSetProject } from '../../redux/actions/actionProject/actionProject';
+import { addMenberWithKeyword } from '../../redux/actions/actionUser/actionUserApi';
 
 function PageListProject() {
+    //table
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+
     const searchInput = useRef(null);
 
-    const dispatch = useDispatch();
-
-    const dataApi = useSelector(state => state.stateProject.projectList);
+    //popover
+    const [value, setValue] = useState('');
+    const [isClear, setIsClear] = useState(false);
 
     useEffect(() => {
         dispatch(actionGetProjectApiSaga());
     }, [])
+
+    const searchRef = useRef('null');
+
+    //comfirm => yes
+    const handleYesDel = useCallback((id) => {
+        dispatch(actionDelProjectApiSaga(id))
+    }, [])
+
+    const dispatch = useDispatch();
+
+    const dataApi = useSelector(state => state.stateProject.projectList);
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -56,6 +54,56 @@ function PageListProject() {
         clearFilters();
         setSearchText('');
     };
+
+    const options = useSelector(state => state.stateUser.storeMenberAdd);
+
+    const handleOnClickAddMenber = (title, chilren, projectId) => {
+        return (
+            <Popover
+                content={
+                    <AutoComplete
+                        style={{
+                            width: '100%',
+                        }}
+                        value={value}
+                        onChange={(value) => { setValue(value) }}
+                        options={options?.length && options?.map(item =>
+                            ({ label: item.name, value: item.userId.toString() }))}
+                        filterOption={(inputValue, option) =>
+                            option.label.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                        }
+                        onSearch={(value) => {
+                            if (searchRef.current) {
+                                clearTimeout(searchRef.current)
+                            }
+                            searchRef.current = setTimeout(() => {
+                                dispatch(addMenberWithKeyword(value))
+                            }, 300)
+                        }}
+                        onSelect={(value, option) => {
+                            setValue(option.label);
+
+                            const data = {
+                                projectId,
+                                userId: option.value,
+                            };
+                            dispatch(actionAssignUserProjectSaga(data))
+                            setTimeout(() => {
+                                setIsClear(true);
+                            }, 100)
+                        }}
+                        allowClear={isClear}
+                    />
+                }
+                title={title}
+                trigger="click"
+                // onVisibleChange={handleVisibleChange}
+                placement={"topLeft"}
+            >
+                {chilren}
+            </Popover>
+        )
+    }
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -142,20 +190,38 @@ function PageListProject() {
             ),
     });
 
+    const listUserFromProject = (members, projectId) => {
+        return (
+            <List
+                dataSource={members}
+                renderItem={(item) => (
+                    <List.Item key={item.userId}
+                        actions={[
+                            <Button type="danger" shape="circle"
+                                onClick={() => dispatch(actionRemoveUserFromProjectSaga({
+                                    projectId: projectId,
+                                    userId: item.userId,
+                                }))}
+                            >X</Button>
+                        ]}
+                    >
+                        <Space>
+                            <Avatar src={item.avatar} />
+                            {item.name}
+                        </Space>
+                    </List.Item>
+                )}
+            />
+        )
+    }
+
     const columns = [
         {
             title: 'ID',
             key: 'ID',
             width: '5%',
             dataIndex: 'id',
-            sorter: (a, b) => a.id - b.id,
-            // render: (text, record, index) => {
-            //     return (
-            //         <span>
-            //             {+index + 1}
-            //         </span>
-            //     )
-            // }
+            sorter: (a, b) => +a.id - +b.id,
         },
         {
             title: 'Project Name',
@@ -163,6 +229,10 @@ function PageListProject() {
             key: 'projectName',
             width: '20%',
             ...getColumnSearchProps('projectName'),
+            render: (text, record, index) => {
+                return <NavLink to={`/DetailProject/${record.id}`}>{text}</NavLink>
+            }
+            ,
             sorter: (a, b) => {
                 return a.projectName?.trim().toLowerCase() < b.projectName?.trim().toLowerCase() ? -1 : 1
             },
@@ -172,7 +242,7 @@ function PageListProject() {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width: '30%',
+            width: '20%',
             ...getColumnSearchProps('description'),
             render: (text, record, index) => {
                 return (
@@ -188,8 +258,39 @@ function PageListProject() {
             ...getColumnSearchProps('categoryName'),
         },
         {
+            title: 'Menber',
+            key: 'menber',
+            width: '20%',
+            render: (text, record, index) => {
+                return (
+                    <Space key={record.id}>
+                        <Popover
+                            content={listUserFromProject(record.members, record.id)}
+                            title={"List menber"}
+                            placement="topLeft"
+                        >
+                            <Space>
+                                {record?.members?.slice(0, 3).map((member) => {
+                                    return <Avatar key={member?.userId} size="small" src={member.avatar} />
+                                })}
+                                {record?.members?.length > 3 ? <Avatar size="small" >...</Avatar> : ''}
+                            </Space>
+                        </Popover>
+
+                        {handleOnClickAddMenber('Menber',
+                            <Avatar shape="circle" size="small"
+                                style={{ cursor: 'pointer' }}
+                            >+
+                            </Avatar>, record.id
+                        )}
+                    </Space>
+                )
+            }
+        },
+        {
             title: 'Action',
             key: 'action',
+            width: '10%',
             render: (text, record, index) => {
                 return (
                     <Space key={record.id}>
@@ -197,18 +298,24 @@ function PageListProject() {
                             type='primary'
                             size="small"
                             onClick={() => {
-                                console.log('edit')
+                                dispatch(actionOpenDrawer(<FormEditer />))
+                                dispatch(actionSetProject(record))
                             }}
                             icon={<i className="fa fa-edit" ></i>}
                         />
-                        <Button
-                            type='danger'
-                            size="small"
-                            onClick={() => {
-                                console.log('del')
-                            }}
-                            icon={<i className="fa fa-trash"></i>}
-                        />
+                        <Popconfirm
+                            title="Có chắc muốn xóa chứ?"
+                            onConfirm={() => handleYesDel(record.id)}
+                            onCancel={(e) => { console.log(e) }}
+                            okText="Yes"
+                            cancelText="Cancel"
+                        >
+                            <Button
+                                type='danger'
+                                size="small"
+                                icon={<i className="fa fa-trash"></i>}
+                            />
+                        </Popconfirm>
                     </Space>
 
                 )
@@ -217,11 +324,13 @@ function PageListProject() {
     ];
     return (
         <div style={{
-            margin: '25px 10px',
-            width: (window.innerWidth - window.innerWidth * 0.25),
+            margin: '10px 25px',
+            marginBottom: '0px',
+            width: (window.innerWidth - window.innerWidth * 0.4),
         }}>
             <h2>List Project</h2>
-            <Table columns={columns} rowKey={'id'} key={'id'} dataSource={dataApi} />;
+            <Table columns={columns} rowKey={'id'} key={'id'} dataSource={dataApi} size='small'
+            />;
         </div>
     )
 

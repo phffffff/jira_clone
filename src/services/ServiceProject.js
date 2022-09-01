@@ -24,6 +24,46 @@ class ServiceProject {
             headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
         })
     }
+    editProject = (project) => {
+        return Axios({
+            url: `${DOMAIN_API}/Project/updateProject?projectId=${project.id}`,
+            method: "PUT",
+            data: project,
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
+        })
+    }
+    delProject = (projectId) => {
+        return Axios({
+            url: `${DOMAIN_API}/Project/deleteProject?projectId=${projectId}`,
+            method: "DELETE",
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
+        })
+    }
+    assignUserProject = (user) => {
+        return Axios({
+            url: `${DOMAIN_API}/Project/assignUserProject`,
+            method: "POST",
+            data: user,
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
+        })
+    }
+
+    removeUserFromProject = (user) => {
+        return Axios({
+            url: `${DOMAIN_API}/Project/removeUserFromProject`,
+            method: "POST",
+            data: user,
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
+        })
+    }
+
+    getProjectDetail = (id) => {
+        return Axios({
+            url: `${DOMAIN_API}/Project/getProjectDetail?id=${id}`,
+            method: "GET",
+            headers: { 'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` }
+        })
+    }
 }
 
 export default new ServiceProject();

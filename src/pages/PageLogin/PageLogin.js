@@ -7,11 +7,13 @@ import * as Yup from 'yup'
 
 import style from './PageLogin.module.scss'
 import { signInUserApi } from '../../redux/actions/actionUser/actionUserApi'
+import { useEffect } from 'react';
 
 function PageLogin(props) {
     const dispatch = useDispatch();
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
             email: '',
             password: '',
@@ -24,6 +26,7 @@ function PageLogin(props) {
             dispatch(signInUserApi(values))
         },
     })
+
 
     return (
         <div className="container">
