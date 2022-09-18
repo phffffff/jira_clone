@@ -16,6 +16,8 @@ import { addLoading, removeLoading } from '../../actions/actionLoading/actionLoa
 import { actionCloseDrawer } from '../../actions/actionForm/actionForm';
 import { actionGetProjectApiSaga } from '../../actions/actionProject/actionProjectApi';
 import openNotificationWithIcon from '../../../utils/notificationfunc';
+import { actionPushUserByProjectId } from '../../actions/actionUser/actionUser';
+import { actionGetUserByProjectIdApiSaga } from '../../actions/actionUser/actionUserApi';
 
 function* getProjectCategoryApi() {
     try {
@@ -58,7 +60,7 @@ function* watchCreateProjectApi() {
     yield takeLatest(CREATE_PROJECT_API_SAGA, createProjectApi);
 }
 
-function* setProjectsApi() {
+function* getProjectsApi() {
     yield put(addLoading())
 
     yield delay(500)
@@ -66,6 +68,7 @@ function* setProjectsApi() {
         const { data, status } = yield call(() => ServiceProject.getProject());
         if (status === 200) {
             yield put(actionSetProjects(data.content));
+            yield put(actionGetUserByProjectIdApiSaga(data.content[0]?.id));
         }
     } catch (error) {
         console.log(error.response.data);
@@ -74,8 +77,8 @@ function* setProjectsApi() {
     yield put(removeLoading());
 }
 
-function* watchSetProjectApi() {
-    yield takeLatest(GET_PROJECT_API_SAGA, setProjectsApi);
+function* watchGetProjectApi() {
+    yield takeLatest(GET_PROJECT_API_SAGA, getProjectsApi);
 }
 
 function* editProjectApi(action) {
@@ -180,7 +183,7 @@ function* watchGetProjectDetailApi() {
 export {
     watchGetProjectCategoryApi,
     watchCreateProjectApi,
-    watchSetProjectApi,
+    watchGetProjectApi,
     watchEditProjectApi,
     watchDelProjectApi,
     watchAssignUserProjectApi,

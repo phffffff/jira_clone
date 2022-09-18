@@ -7,6 +7,7 @@ const initState = {
     title: 'Form default',
     isOpen: false,
     handleSubmit: () => alert("Default"),
+    handleReset: () => alert("Reset"),
 }
 
 const formReducer = (state = initState, action) => {
@@ -19,9 +20,9 @@ const formReducer = (state = initState, action) => {
 
         case OPEN_DRAWER:
             const newForm = {
-                componentForm: action.payload,
+                componentForm: action.payload.component,
                 isOpen: true,
-                title: 'Form Editer',
+                title: action.payload.title,
             }
             return {
                 ...state,
@@ -30,7 +31,8 @@ const formReducer = (state = initState, action) => {
         case SET_HANDLE_SUBMIT:
             return {
                 ...state,
-                handleSubmit: action.payload,
+                handleSubmit: action.payload.handleSubmit,
+                handleReset: action.payload.handleReset,
             }
         default:
             return { ...state };

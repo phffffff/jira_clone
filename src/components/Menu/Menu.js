@@ -13,7 +13,7 @@ function Menu() {
             </div>
             <div className="control">
                 <div>
-                    <NavLink to='/Home' className={({ isActive }) => {
+                    <NavLink to='/' className={({ isActive }) => {
                         return isActive ? 'btn text-primary' : 'btn'
                     }}
                         style={{

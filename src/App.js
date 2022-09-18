@@ -28,9 +28,7 @@ function App() {
     useEffect(() => {
         dispatch(actionNavigate(navigate));
 
-        return () => {
-
-        };
+        return () => { };
     }, []);
 
     return (

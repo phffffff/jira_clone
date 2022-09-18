@@ -40,7 +40,8 @@ function FormEditer(props) {
         errors,
         handleChange,
         handleSubmit,
-        setFieldValue
+        setFieldValue,
+        handleReset,
     } = props;
 
     const handleEditChange = (content, editor) => {
@@ -49,7 +50,10 @@ function FormEditer(props) {
 
     useEffect(() => {
         dispatch(actionGetProjectCategoryApiSaga())
-        dispatch(actionSetHandleSubmit(handleSubmit))
+        dispatch(actionSetHandleSubmit({
+            handleSubmit: handleSubmit,
+            handleReset: handleReset,
+        }))
     }, [])
 
     return (

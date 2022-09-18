@@ -2,13 +2,14 @@ import { Drawer, Space, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCloseDrawer } from '../redux/actions/actionForm/actionForm';
 
-function DraweHoc(props) {
+function DraweHoc() {
 
   const dispatch = useDispatch();
-  const { isOpen, componentForm, title, handleSubmit } = useSelector(state => state.stateForm);
+  const { isOpen, componentForm, title, handleSubmit, handleReset } = useSelector(state => state.stateForm);
 
   const handleCancel = () => {
     dispatch(actionCloseDrawer());
+    handleReset();
   };
 
   return (
@@ -21,7 +22,9 @@ function DraweHoc(props) {
       footer={
         <Space>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button type="primary" onClick={handleSubmit}>
+          <Button type="primary" onClick={() => {
+            handleSubmit();
+          }}>
             Submit
           </Button>
         </Space>
@@ -29,7 +32,6 @@ function DraweHoc(props) {
     >
       {componentForm}
     </Drawer>
-
   );
 };
 

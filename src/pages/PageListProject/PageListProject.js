@@ -29,6 +29,8 @@ function PageListProject() {
     const [value, setValue] = useState('');
     const [isClear, setIsClear] = useState(false);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(actionGetProjectApiSaga());
     }, [])
@@ -39,8 +41,6 @@ function PageListProject() {
     const handleYesDel = useCallback((id) => {
         dispatch(actionDelProjectApiSaga(id))
     }, [])
-
-    const dispatch = useDispatch();
 
     const dataApi = useSelector(state => state.stateProject.projectList);
 
@@ -298,7 +298,10 @@ function PageListProject() {
                             type='primary'
                             size="small"
                             onClick={() => {
-                                dispatch(actionOpenDrawer(<FormEditer />))
+                                dispatch(actionOpenDrawer({
+                                    component: <FormEditer />,
+                                    title: "Form Editer"
+                                }))
                                 dispatch(actionSetProject(record))
                             }}
                             icon={<i className="fa fa-edit" ></i>}

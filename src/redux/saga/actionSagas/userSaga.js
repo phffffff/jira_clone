@@ -1,10 +1,10 @@
 import { takeLatest, put, call, delay, select } from 'redux-saga/effects';
 
-import { LOGIN_USER_API_SAGA, ADD_MENBER_WITH_KEYWORD_SAGA } from '../../constants/constantsApi'
+import { LOGIN_USER_API_SAGA, ADD_MENBER_WITH_KEYWORD_SAGA, GET_USER_BY_PROJECT_ID_API_SAGA } from '../../constants/constantsApi'
 import ServiceUser from '../../../services/ServiceUser';
 import { addLoading, removeLoading } from '../../actions/actionLoading/actionLoading';
 import { TOKEN, USER_LOGIN } from '../../../utils/constantsApi';
-import { pushMenberAction, pushUserAction } from '../../actions/actionUser/actionUser';
+import { actionPushUserByProjectId, pushMenberAction, pushUserAction } from '../../actions/actionUser/actionUser';
 
 function* signIn(action) {
     yield put(addLoading())
@@ -22,7 +22,7 @@ function* signIn(action) {
 
         const navigate = yield select(state => state.stateNavigate.navigate);
 
-        navigate('/home', {
+        navigate('/', {
             replace: true,
         })
 
@@ -54,7 +54,28 @@ function* watchGetUserByKeyWord() {
     yield takeLatest(ADD_MENBER_WITH_KEYWORD_SAGA, getUserByKeyWord)
 }
 
+
+function* getUserByProjectId(action) {
+    try {
+        const { payload } = action;
+        const { data, status } = yield call(() => ServiceUser.getUserByProjectId(payload));
+
+        if (status === 200) {
+            yield put(actionPushUserByProjectId(data.content));
+        }
+
+    } catch (error) {
+        console.log(error.response.data);
+        yield put(actionPushUserByProjectId([]));
+    }
+}
+
+function* watchGetUserByProjectId() {
+    yield takeLatest(GET_USER_BY_PROJECT_ID_API_SAGA, getUserByProjectId)
+}
+
 export {
     watchSignIn,
     watchGetUserByKeyWord,
+    watchGetUserByProjectId,
 }

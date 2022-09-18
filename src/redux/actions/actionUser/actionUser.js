@@ -1,4 +1,4 @@
-import { PUSH_USER, PUSH_MEMBER } from "../../constants/constanst"
+import { PUSH_USER, PUSH_MEMBER, PUSH_USER_BY_PROJECTID } from "../../constants/constanst"
 
 const pushUserAction = (payload) => {
     return {
@@ -14,7 +14,15 @@ const pushMenberAction = (payload) => {
     }
 }
 
+const actionPushUserByProjectId = (payload) => {
+    return {
+        type: PUSH_USER_BY_PROJECTID,
+        payload,
+    }
+}
+
 export {
     pushUserAction,
     pushMenberAction,
+    actionPushUserByProjectId,
 }

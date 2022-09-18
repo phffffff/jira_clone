@@ -5,19 +5,44 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { actionOpenDrawer } from '../../redux/actions/actionForm/actionForm';
+import FormCreateTask from '../Form/FormCreateTask';
 
 const { Sider } = Layout;
 const { Item } = Menu;
 
-const items = [
-    { label: 'User', key: 'user', icon: < UserOutlined /> },
-    { label: 'Search', key: 'searchIssue', icon: < SearchOutlined /> },
-    { label: 'Create', key: 'createIssue', icon: < PlusOutlined /> },
-]
+// const items = [
+//     { label: 'User', key: 'user', icon: < UserOutlined />, onClick: () => console.log("helo") },
+//     { label: 'Search', key: 'searchIssue', icon: < SearchOutlined />, onClick: () => console.log("helo") },
+//     {
+//         label: 'Create', key: 'createIssue', icon: < PlusOutlined />, onClick: () => {
+
+//             console.log('helo')
+//         }
+//     },
+// ]
 
 function SideBar() {
     const [collapsed, setCollapsed] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const itemsRef = useRef([
+        { label: 'User', key: 'user', icon: < UserOutlined />, onClick: () => console.log("helo") },
+        { label: 'Search', key: 'searchIssue', icon: < SearchOutlined />, onClick: () => console.log("helo") },
+        {
+            label: 'Create', key: 'createIssue', icon: < PlusOutlined />, onClick: () => {
+                dispatch(actionOpenDrawer({
+                    component: <FormCreateTask />,
+                    title: 'Create task'
+                })
+                );
+            }
+        },
+    ])
+
     return (
         // <div className="sideBar">
         //     <div className="sideBar-top">
@@ -47,7 +72,7 @@ function SideBar() {
                 width={'130px'} className='bg-primary'
             >
                 <div className="logo" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='bg-primary' items={items} />
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='bg-primary' items={itemsRef.current} />
             </Sider>
         </>
     );
