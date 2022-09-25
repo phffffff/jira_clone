@@ -1,7 +1,8 @@
 import SideBar from '../../components/SideBar/SideBar';
 import Menu from '../../components/Menu/Menu';
 import './HomeTemplate.css';
-import Modal from '../../components/Modal/Modal';
+import InfoModal from '../../components/Modal/InfoModal';
+import SearchModal from '../../components/Modal/SearchModal';
 
 function HomeTemplate(props) {
     const { children } = props;
@@ -15,7 +16,8 @@ function HomeTemplate(props) {
                     {children}
                 </div>
             </div>
-            <Modal />
+            <InfoModal />
+            <SearchModal />
         </>
     );
 }

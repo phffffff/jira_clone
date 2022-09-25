@@ -10,7 +10,6 @@ class ServiceCRUD {
         })
     }
     post = (api, data = {}, payload = '') => {
-        console.log('helo')
         return Axios({
             url: `${DOMAIN_API}/${api}${payload}`,
             data,

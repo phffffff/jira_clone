@@ -9,6 +9,8 @@ function* rootSaga() {
         User.watchSignIn(),
         User.watchGetUserByKeyWord(),
         User.watchGetUserByProjectId(),
+        User.watchRemoveUserFromTask(),
+        User.watchAssignUserTask(),
 
         Project.watchGetProjectCategoryApi(),
         Project.watchCreateProjectApi(),
@@ -23,6 +25,9 @@ function* rootSaga() {
         Task.watchGetStatusApiSaga(),
         Task.watchGetPriorityApiSaga(),
         Task.watchCreateTaskApiSaga(),
+        Task.watchUpdateTaskApiSaga(),
+        Task.watchDeleteTaskApi(),
+        Task.watchGetTaskDetailApi(),
     ])
 }
 

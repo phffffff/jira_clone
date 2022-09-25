@@ -24,11 +24,7 @@ function FormCreateTask() {
     const { priorityList } = useSelector(state => state.statePriority);
     const { userListByProjectId } = useSelector(state => state.stateUser);
 
-    // console.log('projectList', projectList);
-    // console.log('taskTypeList', taskTypeList);
-    // console.log('statusList', statusList);
-    // console.log('priorityList', priorityList);
-    // console.log('userListByProjectId', userListByProjectId);
+    const [selectUserList, setSelectUserList] = useState([]);
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -68,6 +64,8 @@ function FormCreateTask() {
         dispatch(actionGetTaskTypeApiSaga());
         dispatch(actionGetStatusApiSaga());
         dispatch(actionGetPriorityApiSaga());
+
+        setSelectUserList([]);
     }, [])
 
     return (
@@ -80,6 +78,8 @@ function FormCreateTask() {
                             onChange={(value) => {
                                 formik.setFieldValue('projectId', value);
                                 dispatch(actionGetUserByProjectIdApiSaga(value));
+
+                                setSelectUserList([]);
                             }}
                             value={formik.values.projectId}
                             defaultValue={projectList[0]?.projectName}
@@ -151,11 +151,12 @@ function FormCreateTask() {
                             placeholder="Please select user"
                             onChange={(values) => {
                                 formik.setFieldValue('listUserAsign', values)
+                                setSelectUserList(values);
                             }}
                             filterOption={(input, option) => {
                                 return option.label.toLowerCase().includes(input.toLowerCase());
                             }}
-                            value={formik.values.listUserAsign}
+                            value={selectUserList}
                             optionLabelProp="label"
                             options={
                                 userListByProjectId?.length ? userListByProjectId.map(user => ({ value: user.userId, label: user.name })) : []

@@ -5,8 +5,8 @@ import { DOMAIN_API, TOKEN } from '../utils/constantsApi'
 import ServiceCRUD from './ServiceCRUD'
 
 class ServiceUser extends ServiceCRUD {
-    userSignIn = (payload) => {
-        return this.post('Users/signin', { email: payload.email, password: payload.password })
+    userSignIn = (data) => {
+        return this.post('Users/signin', { email: data.email, password: data.password })
     }
 
     getUserWithKeyword = (keyword) => {
@@ -16,7 +16,12 @@ class ServiceUser extends ServiceCRUD {
     getUserByProjectId = (projectId) => {
         return this.get('Users/getUserByProjectId?idProject=', projectId);
     }
+
+    removeUserFromTask = (data) => {
+        return this.post('Project/removeUserFromTask', data);
+    }
 }
+
 
 
 export default new ServiceUser();

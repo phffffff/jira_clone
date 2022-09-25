@@ -1,3 +1,4 @@
+import { Statistic } from "antd";
 import React from "react";
 
 import { CLOSE_DRAWER, OPEN_DRAWER, SET_HANDLE_SUBMIT } from '../../constants/constanst'
@@ -13,6 +14,7 @@ const initState = {
 const formReducer = (state = initState, action) => {
     switch (action.type) {
         case CLOSE_DRAWER:
+            // state.handleReset();
             return {
                 ...state,
                 isOpen: false,

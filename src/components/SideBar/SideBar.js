@@ -9,9 +9,9 @@ import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionOpenDrawer } from '../../redux/actions/actionForm/actionForm';
 import FormCreateTask from '../Form/FormCreateTask';
+import { actionResetTaskForm } from '../../redux/actions/actionTask/actionTask';
 
 const { Sider } = Layout;
-const { Item } = Menu;
 
 // const items = [
 //     { label: 'User', key: 'user', icon: < UserOutlined />, onClick: () => console.log("helo") },
@@ -37,8 +37,8 @@ function SideBar() {
                 dispatch(actionOpenDrawer({
                     component: <FormCreateTask />,
                     title: 'Create task'
-                })
-                );
+                }));
+                dispatch(actionResetTaskForm());
             }
         },
     ])

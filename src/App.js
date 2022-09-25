@@ -20,6 +20,7 @@ import DrawerHoc from "./HOC/DrawerHoc";
 
 function App() {
     const { isLoading } = useSelector(state => state.stateLoad);
+    const { isOpen } = useSelector(state => state.stateForm);
 
     const navigate = useNavigate()
 
@@ -64,12 +65,14 @@ function App() {
                     </HomeTemplate>
                 } />
                 <Route path='/' element={
-                    <HomeTemplate>
-                        <PageListProject />
-                    </HomeTemplate>
+                    <LoginUserTemplate>
+                        <PageLogin />
+                    </LoginUserTemplate>
                 } />
             </Routes>
-            <DrawerHoc />
+            {isOpen ? <DrawerHoc isOpen={isOpen} /> :
+                <></>
+            }
         </>
     );
 }
